@@ -1,10 +1,21 @@
-import sqlite3
+import sqlite3, json
 import principles, wisdoms
 import dataclasses
 
 @dataclasses.dataclass
 class Memory:
     id: str; name: str; aspects: dict[str, str]; is_persistent: bool
+    
+def extract_aspected_item_data(binary : bytearray, connection : sqlite3.Connection):
+    raw_data = json.loads(binary)
+    raw_data = raw_data['elements']
+    
+    memory_list = []
+    
+    for item in raw_data:
+        if item["inherits"] == "_memory" or item["inherits"] == "_memory.persistent":
+            memory_list.append(parse_memory(item))
+    write_memory(memory_list, connection)
 
 def parse_memory (memory_entry) -> Memory:
     assert memory_entry["inherits"] == '_memory' \
@@ -21,7 +32,7 @@ def write_memory (memory_list : list[Memory], connection : sqlite3.Connection):
     '''Write a list of memory into a sqlite database for quick reference'''
     cursor = connection.cursor()
     
-    cursor.execute("DROP TABLE IF EXISTS memory")
+    # cursor.execute("DROP TABLE IF EXISTS memory")
     command = "CREATE TABLE IF NOT EXISTS memory(id PRIMARY KEY, name, persist" \
         + principles.comma_seperated_principles() \
         + wisdoms.comma_seperated_evolve_wisdoms() + ")"
@@ -41,7 +52,7 @@ def write_memory (memory_list : list[Memory], connection : sqlite3.Connection):
 
         memory_flattened_list.append(memory_flattened)
     
-    command = "INSERT INTO memory VALUES (:id, :name, :persist" \
+    command = "INSERT OR REPLACE INTO memory VALUES (:id, :name, :persist" \
         + principles.colon_seperated_principles() \
         + wisdoms.colon_seperated_evolve_wisdoms() + ")"
     cursor.executemany(

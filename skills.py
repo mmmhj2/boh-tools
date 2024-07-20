@@ -1,4 +1,4 @@
-import sqlite3
+import sqlite3, json
 import principles, wisdoms
 import dataclasses
 
@@ -9,6 +9,15 @@ class Skill:
     aspects: dict[str, str]
     wisdoms: list[str]
     is_language: bool
+    
+def extract_skill_data(binary : bytearray, connection : sqlite3.Connection):
+    raw_data = json.loads(binary)
+    raw_data = raw_data['elements']
+    skill_list = []
+    
+    for item in raw_data:
+        skill_list.append(parse_skill(item))
+    write_skill(skill_list, connection)
 
 def parse_skill (skill_entry) -> Skill:
     assert skill_entry['aspects']['skill'] == 1
@@ -26,7 +35,7 @@ def parse_skill (skill_entry) -> Skill:
 
 def write_skill (skill_list: list[Skill], connection: sqlite3.Connection):
     cursor = connection.cursor()
-    cursor.execute("DROP TABLE IF EXISTS skill")
+    # cursor.execute("DROP TABLE IF EXISTS skill")
     command = "CREATE TABLE IF NOT EXISTS skill(id PRIMARY KEY, name, language" \
         + principles.comma_seperated_principles() \
         + wisdoms.comma_seperated_skill_wisdoms() + ")"
@@ -48,7 +57,7 @@ def write_skill (skill_list: list[Skill], connection: sqlite3.Connection):
 
         skill_flattened_list.append(skill_flattened)
     
-    command = "INSERT INTO skill VALUES (:id, :name, :language" \
+    command = "INSERT OR REPLACE INTO skill VALUES (:id, :name, :language" \
         + principles.colon_seperated_principles() \
         + wisdoms.colon_seperated_skill_wisdoms() + ")"
     cursor.executemany(
