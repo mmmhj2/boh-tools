@@ -19,3 +19,11 @@ def comma_seperated_evolve_wisdoms():
 def colon_seperated_evolve_wisdoms():
     '''Return a comma and colon seperated list of wisdoms for executemany()'''
     return ',:e_' + ',:e_'.join(WISDOMS)
+
+def comma_seperated_skill_wisdoms():
+    '''Return a comma seperated list of wisdoms for SQLite commands'''
+    return ',w_' + ',w_'.join(WISDOMS)
+
+def colon_seperated_skill_wisdoms():
+    '''Return a comma and colon seperated list of wisdoms for executemany()'''
+    return ',:w_' + ',:w_'.join(WISDOMS)
