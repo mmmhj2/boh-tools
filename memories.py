@@ -1,8 +1,10 @@
 import sqlite3
 import principles, wisdoms
-from collections import namedtuple
+import dataclasses
 
-Memory = namedtuple("memory", ["id", "name", "aspects", "is_persistent"])
+@dataclasses.dataclass
+class Memory:
+    id: str; name: str; aspects: dict[str, str]; is_persistent: bool
 
 def parse_memory (memory_entry) -> Memory:
     assert memory_entry["inherits"] == '_memory' \
