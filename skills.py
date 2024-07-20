@@ -42,7 +42,9 @@ def write_skill (skill_list: list[Skill], connection: sqlite3.Connection):
             skill_flattened["w_" + e] = 0
 
         for aspect, magnitude in skill.aspects.items():
-            skill_flattened[aspect.replace(".", "_")] = magnitude
+            skill_flattened[aspect] = magnitude
+        for wisdom in skill.wisdoms:
+            skill_flattened["w_" + wisdom] = 1
 
         skill_flattened_list.append(skill_flattened)
     
