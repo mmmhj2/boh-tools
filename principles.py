@@ -1,7 +1,7 @@
 
 PRINCIPLES = [
     "edge", "forge", "grail", "heart", "knock", "lantern",
-    "moon", "moth", "nector", "rose", "scale", "sky", "winter"
+    "moon", "moth", "nectar", "rose", "scale", "sky", "winter"
 ]
 
 def comma_seperated_principles():
