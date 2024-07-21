@@ -6,7 +6,7 @@ import dataclasses
 class Memory:
     id: str; name: str; aspects: dict[str, str]; is_persistent: bool
     
-def extract_aspected_item_data(binary : bytearray, connection : sqlite3.Connection):
+def extract_memories(binary : bytearray, connection : sqlite3.Connection):
     raw_data = json.loads(binary)
     raw_data = raw_data['elements']
     

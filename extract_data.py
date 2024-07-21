@@ -1,5 +1,5 @@
 import sys, sqlite3
-import memories, skills, tomes
+import memories, skills, tomes, aspected_items
 
 if __name__ == "__main__":
     
@@ -14,7 +14,9 @@ if __name__ == "__main__":
 
     # Read utf-16 binary data
     with open(path + "aspecteditems.json", 'rb') as f:
-        memories.extract_aspected_item_data(f.read(), connection)
+        b = f.read()
+        memories.extract_memories(b, connection)
+        aspected_items.extract_aspected_item_data(b, connection)
     with open(path + "skills.json", 'rb') as f:
         skills.extract_skill_data(f.read(), connection)
     with open(path + "tomes.json", 'rb') as f:
