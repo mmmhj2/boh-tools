@@ -1,5 +1,5 @@
 import sys, sqlite3, json
-import memories, skills, tomes, aspected_items
+import memories, skills, tomes, aspected_items, leveled_recipe
 
 if __name__ == "__main__":
     
@@ -21,4 +21,10 @@ if __name__ == "__main__":
         skills.extract_skill_data(json.loads(f.read()), connection)
     with open(path + "tomes.json", 'rb') as f:
         tomes.extract_tome_data(json.loads(f.read()), connection)
+    with open('crafting_2_keeper.json', 'rb') as f:
+        leveled_recipe.extract_leveled_recipe(json.loads(f.read()), connection)
+    with open('crafting_3_scholar.json', 'rb') as f:
+        leveled_recipe.extract_leveled_recipe(json.loads(f.read()), connection)
+    with open('crafting_4b_prentice.json', 'rb') as f:
+        leveled_recipe.extract_leveled_recipe(json.loads(f.read()), connection)
     
