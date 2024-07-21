@@ -16,8 +16,10 @@ You might have to fix this manually by deleting the last element in the file.
 ### SQLite quick reference
 
 1. Find memories to upgrade a certain skill:
-`SELECT name FROM memory WHERE edge > 0 or moon > 0`
+`SELECT name FROM memory WHERE edge > 0 or moon > 0;`
 2. Find books which produce memory to upgrade a skill:
-`SELECT name FROM tome WHERE memory in (SELECT id FROM memory WHERE lantern > 0 or sky > 0)`
+`SELECT name FROM tome WHERE memory in (SELECT id FROM memory WHERE lantern > 0 or sky > 0);`
+3. Find devices and inks that aid in reading a book:
+`SELECT name FROM aspected_items WHERE (inherited == '_device' or json_extract(aspected_items.other_aspects, '$.ink')) and lantern > 0;`
 3. Count number of books written in certain language:
-`SELECT count(*) FROM tome WHERE language == 'vak'`
+`SELECT count(*) FROM tome WHERE language == 'vak';`

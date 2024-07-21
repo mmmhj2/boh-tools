@@ -9,8 +9,7 @@ class AspectedItem:
     aspects: dict[str, int]
     inherited: str
     
-def extract_aspected_item_data(binary : bytearray, connection : sqlite3.Connection):
-    raw_data = json.loads(binary)
+def extract_aspected_item_data(raw_data : dict, connection : sqlite3.Connection):
     raw_data = raw_data['elements']
     
     item_list = []
@@ -65,4 +64,4 @@ def write_aspected_item (item_list : list[AspectedItem], connection : sqlite3.Co
 if __name__ == '__main__':
     connection = sqlite3.connect('items.db')
     with open("aspecteditems.json", 'rb') as f:
-        extract_aspected_item_data(f.read(), connection)
+        extract_aspected_item_data(json.loads(f.read()), connection)

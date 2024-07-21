@@ -11,8 +11,7 @@ class Tome:
     language: str
     memory: str
     
-def extract_tome_data(binary : bytearray, connection : sqlite3.Connection):
-    raw_data = json.loads(binary)
+def extract_tome_data(raw_data : dict, connection : sqlite3.Connection):
     raw_data = raw_data['elements']
     tome_list = []
     for item in raw_data:
@@ -60,4 +59,4 @@ if __name__ == "__main__":
 
     connection = sqlite3.connect("tomes.db")
     with open("tomes.json", 'rb') as f:
-        extract_tome_data(f.read(), connection)
+        extract_tome_data(json.loads(f.read()), connection)

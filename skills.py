@@ -10,8 +10,7 @@ class Skill:
     wisdoms: list[str]
     is_language: bool
     
-def extract_skill_data(binary : bytearray, connection : sqlite3.Connection):
-    raw_data = json.loads(binary)
+def extract_skill_data(raw_data : dict, connection : sqlite3.Connection):
     raw_data = raw_data['elements']
     skill_list = []
     
